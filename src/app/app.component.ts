@@ -47,6 +47,23 @@ export class AppComponent {
         customClass: 'first-subheading'
       },
       {
+        name: 'Gestion Dahira',
+        icon: 'description',
+        position: 7,
+        subItems: [
+          {
+            name: 'Dahira',
+            routeOrFunction: '/gestion-dahira/dahira',
+            position: 8
+          },
+          {
+            name: 'Membre',
+            routeOrFunction: '/gestion-dahira/membre',
+            position: 9
+          }
+        ]
+      },
+      {
         name: 'Dashboard',
         routeOrFunction: '/',
         icon: 'dashboard',

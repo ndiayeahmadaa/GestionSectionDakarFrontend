@@ -23,10 +23,19 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
+
       {
         path: '',
         loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
         pathMatch: 'full'
+      },
+      {
+        path: 'gestion-dahira/dahira',
+        loadChildren: () => import('./pages/gestion-dahira/dahira/dahira.module').then(m => m.DahiraModule),
+      },
+      {
+        path: 'gestion-dahira/membre',
+        loadChildren: () => import('./pages/gestion-dahira/membre/membre.module').then(m => m.MembreModule),
       },
       {
         path: 'apps/inbox',
