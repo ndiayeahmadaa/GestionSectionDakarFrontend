@@ -5,5 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class MembreService {
 
+  private url: 'http://http://localhost:8089/membres';
+
   constructor() { }
 }
