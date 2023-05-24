@@ -58,7 +58,7 @@ export class AppComponent {
           },
           {
             name: 'Membre',
-            routeOrFunction: '/gestion-dahira/membre',
+            routeOrFunction: '/gestion-dahira/membre/liste-membre',
             position: 9
           }
         ]
