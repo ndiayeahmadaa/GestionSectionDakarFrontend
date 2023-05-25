@@ -15,13 +15,13 @@ import { SplashScreenService } from '../@fury/services/splash-screen.service';
 export class AppComponent {
 
   constructor(private sidenavService: SidenavService,
-              private iconRegistry: MatIconRegistry,
-              private renderer: Renderer2,
-              private themeService: ThemeService,
-              @Inject(DOCUMENT) private document: Document,
-              private platform: Platform,
-              private route: ActivatedRoute,
-              private splashScreenService: SplashScreenService) {
+    private iconRegistry: MatIconRegistry,
+    private renderer: Renderer2,
+    private themeService: ThemeService,
+    @Inject(DOCUMENT) private document: Document,
+    private platform: Platform,
+    private route: ActivatedRoute,
+    private splashScreenService: SplashScreenService) {
     this.route.queryParamMap.pipe(
       filter(queryParamMap => queryParamMap.has('style'))
     ).subscribe(queryParamMap => this.themeService.setStyle(queryParamMap.get('style')));
@@ -60,7 +60,20 @@ export class AppComponent {
             name: 'Membre',
             routeOrFunction: '/gestion-dahira/membre/liste-membre',
             position: 9
-          }
+          },
+        ]
+      },
+
+      {
+        name: 'Parametrage',
+        icon: 'description',
+        position: 7,
+        subItems: [
+          {
+            name: 'Fonction',
+            routeOrFunction: '/gestion-dahira/parametrage/fonction/liste-fonction',
+            position: 8
+          },
         ]
       },
       {

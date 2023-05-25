@@ -41,7 +41,7 @@ export class ListeMembreComponent implements OnInit {
     { name: 'Scolarite', property: 'scolarite', visible: true, isModelProperty: true },
     { name: 'Adresse', property: 'adresse', visible: true, isModelProperty: true },
     { name: 'Dahira', property: 'dahira', visible: true, isModelProperty: true },
-    { name: 'Foncton', property: 'fonction', visible: true , isModelProperty: true },
+    { name: 'Fonction', property: 'fonction', visible: true , isModelProperty: true }
   ] as ListColumn[];
   constructor(
     private membreService: MembreService,
