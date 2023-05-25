@@ -30,11 +30,10 @@ export class MembreService {
   }
 
   listeMembre(): Observable<HttpResponse<any>> {
-    return this._httpClient
-    .get<any>(this.url, {
+    return this._httpClient.get<any>(this.url, {
       observe: 'response',
     })
-    .pipe(catchError(this.errorHandler));
+      .pipe(catchError(this.errorHandler));
   }
 
   errorHandler(error) {

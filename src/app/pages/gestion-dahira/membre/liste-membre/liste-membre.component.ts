@@ -34,8 +34,8 @@ export class ListeMembreComponent implements OnInit {
     { name: 'Checkbox', property: 'checkbox', visible: false },
     // { name: 'ID', property: 'id', visible: true },
     { name: 'Matricule', property: 'matricule', visible: true, isModelProperty: true },
-    { name: 'Prenom', property: 'prenom', visible: false, isModelProperty: true },
-    { name: 'Nom', property: 'nom', visible: false, isModelProperty: true },
+    { name: 'Prenom', property: 'prenom', visible: true, isModelProperty: true },
+    { name: 'Nom', property: 'nom', visible: true, isModelProperty: true },
     { name: 'Sexe', property: 'sexe', visible: true, isModelProperty: true },
     { name: 'Telephone', property: 'telephone', visible: true, isModelProperty: true },
     { name: 'Scolarite', property: 'scolarite', visible: true, isModelProperty: true },
@@ -65,6 +65,7 @@ export class ListeMembreComponent implements OnInit {
     this.membreService.listeMembre().subscribe(
       (response) => {
         this.membres = response.body;
+        console.log('liste membres');
       },
       (err) => {
       },
