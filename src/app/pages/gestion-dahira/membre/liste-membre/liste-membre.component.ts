@@ -40,8 +40,8 @@ export class ListeMembreComponent implements OnInit {
     { name: 'Telephone', property: 'telephone', visible: true, isModelProperty: true },
     { name: 'Scolarite', property: 'scolarite', visible: true, isModelProperty: true },
     { name: 'Adresse', property: 'adresse', visible: true, isModelProperty: true },
-    // { name: 'Dahira', property: 'dahira', visible: true },
-    // { name: 'Foncton', property: 'fonction', visible: true },
+    { name: 'Dahira', property: 'dahira', visible: true, isModelProperty: true },
+    { name: 'Foncton', property: 'fonction', visible: true , isModelProperty: true },
   ] as ListColumn[];
   constructor(
     private membreService: MembreService,
@@ -65,7 +65,7 @@ export class ListeMembreComponent implements OnInit {
     this.membreService.listeMembre().subscribe(
       (response) => {
         this.membres = response.body;
-        console.log('liste membres');
+        console.log('liste membres', this.membres);
       },
       (err) => {
       },

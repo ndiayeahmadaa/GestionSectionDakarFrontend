@@ -39,20 +39,33 @@
             <th *matHeaderCellDef mat-header-cell mat-sort-header> {{
               column.name }}</th>
             <td *matCellDef="let row" mat-cell>
-              <p *ngIf="row.membre && column.name === 'Matricule'">
-                {{row.membre.matricule}}
+              <p *ngIf="column.name === 'Matricule'">
+                {{row.matricule}}
               </p>
-              <p *ngIf="row.membre && column.name === 'Prenom'">
-                {{row.membre.prenom}}
+              <p *ngIf="column.name === 'Prenom'">
+                {{row.prenom}}
               </p>
-              <p *ngIf="row.membre && column.name === 'Nom'">
-                {{row.membre.nom}}
+              <p *ngIf="column.name === 'Nom'">
+                {{row.nom}}
               </p>
-              <p *ngIf="row.membre && column.name === 'Sexe'">
-                {{row.membre.sexe}}
+              <p *ngIf="column.name === 'Sexe'">
+                {{row.sexe}}
               </p>
-              <p *ngIf="row.membre && column.name === 'Telephone'">
-                {{row.membre.telephone}}
+              <p *ngIf="column.name === 'Telephone'">
+                {{row.telephone}}
+              </p>
+              <p *ngIf="column.name === 'Scolarite'">
+                {{row.scolarite}}
+              </p>
+              
+              <p *ngIf="column.name === 'Adresse'">
+                {{row.adresse}}
+              </p>
+              <p *ngIf="column.name === 'Dahira'">
+                {{row.dahira?.nom}}
+              </p>
+              <p *ngIf="column.name === 'Fonction'">
+                {{row.fonction?.nom}}
               </p>
             </td>
           </ng-container>

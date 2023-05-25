@@ -11,7 +11,7 @@ export class MembreService {
 
   // headers = new HttpHeaders();
 
-  private url: 'http://localhost:8089/membres';
+  url = 'http://localhost:8089/membres';
 
   constructor(private _httpClient: HttpClient) {
     // this.headers = this.headers.set('content-type', 'undefined');
