@@ -38,7 +38,7 @@ export class ListeMembreComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @Input()
   columns: ListColumn[] = [
-    { name: 'Checkbox', property: 'checkbox', visible: false },
+    { name: 'Checkbox', property: 'checkbox', visible: true },
     // { name: 'ID', property: 'id', visible: true },
     { name: 'Matricule', property: 'matricule', visible: true, isModelProperty: true },
     { name: 'Prenom', property: 'prenom', visible: true, isModelProperty: true },
