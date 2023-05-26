@@ -1,1 +1,74 @@
-<p>ajout-membre works!</p>
+<div mat-dialog-title>Membre</div>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content>
+
+    <div class="person">
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+        <mat-form-field fxFlex>
+            <mat-label>Renseigner le Dahira</mat-label>
+            <input matInput [matAutocomplete]="auto" [formControl]="stateCtrl">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let dahira of filteredStates | async" [value]="dahira.code + ' ' + dahira.nom" (click)="setDahira(dahira)">
+                    <img style="vertical-align:middle; margin-right: 4px;" src="assets/img/users.png" height="16" />
+                    <span>{{ dahra.code  }}</span> |
+                    <span><small> {{ dahira.nom }} </small>
+                    </span>
+                </mat-option>
+            </mat-autocomplete>
+            <button *ngIf="stateCtrl.value" type="button" mat-icon-button (click)="stateCtrl.reset()" matSuffix>
+            <mat-icon>close</mat-icon>
+          </button>
+            <button *ngIf="!stateCtrl.value" type="button" mat-icon-button matSuffix>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Matricule</mat-label>
+          <input type="text" formControlName="matricule" matInput>
+        </mat-form-field>
+
+        <mat-form-field fxFlex>
+          <mat-label>Prenom</mat-label>
+          <input type="text" formControlName="prenom" matInput>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field fxFlex>
+        <mat-label>Nom</mat-label>
+        <input type="text" formControlName="nom" matInput>
+      </mat-form-field>
+
+      <mat-radio-group color="accent" fxLayout="row" fxLayoutGap="16px" formControlName="sexe">
+        <mat-label>Sexe</mat-label>
+        <mat-radio-button color="primary" value="m">Homme
+        </mat-radio-button>
+        <mat-radio-button color="accent" value="f">Femme</mat-radio-button>
+    </mat-radio-group>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field fxFlex>
+        <mat-label>Téléphone</mat-label>
+        <input type="text" formControlName="telephone" matInput>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Scolarite</mat-label>
+        <input type="text" formControlName="scolarite" matInput>
+      </mat-form-field>
+    </div>
+<!-- 
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field fxFlex>
+        <mat-label>Phone Number</mat-label>
+        <input type="text" formControlName="phoneNumber" matInput>
+      </mat-form-field>
+    </div> -->
+  </mat-dialog-content>
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button *ngIf="isCreateMode()" mat-button [disabled]="!form.valid">CREATE MEMBRE</button>
+    <!-- <button *ngIf="isUpdateMode()" mat-button [disabled]="!form.valid">UPDATE CUSTOMER</button> -->
+  </mat-dialog-actions>
+</form>

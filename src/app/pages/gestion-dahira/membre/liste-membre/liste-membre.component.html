@@ -8,9 +8,9 @@
   </fury-page-layout-header>
 
   <fury-page-layout-content [@fadeInUp]>
-    <fury-list>
+    <fury-list name="Membres" [columns]="columns" (filterChange)="onFilterChange($event)">
       <div class="actions">
-        <button class="create" type="button" mat-mini-fab color="primary">
+        <button class="create" (click)="createMembre()" type="button" mat-mini-fab color="primary">
           <mat-icon>add</mat-icon>
         </button>
       </div>

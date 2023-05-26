@@ -8,9 +8,13 @@ import { ListColumn } from 'src/@fury/shared/list/list-column.model';
 import { DialogConfirmationService } from '../../../../shared/services/dialog-confirmation.service';
 import { Observable, ReplaySubject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
-import { filter } from 'rxjs/operators';
+import { filter, map, startWith } from 'rxjs/operators';
 import { fadeInUpAnimation } from 'src/@fury/animations/fade-in-up.animation';
 import { fadeInRightAnimation } from 'src/@fury/animations/fade-in-right.animation';
+import { AjoutMembreComponent } from '../ajout-membre/ajout-membre.component';
+import { MatDialog } from '@angular/material/dialog';
+import { DahiraService } from '../../shared/services/dahira.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'fury-liste-membre',
@@ -21,6 +25,9 @@ import { fadeInRightAnimation } from 'src/@fury/animations/fade-in-right.animati
 export class ListeMembreComponent implements OnInit {
 
   membres: Membre[];
+  dahiras: any;
+  filteredStates: Observable<any[]>;
+  stateCtrl: FormControl = new FormControl();
   subject$: ReplaySubject<Membre[]> = new ReplaySubject<Membre[]>(
     1
   );
@@ -45,6 +52,8 @@ export class ListeMembreComponent implements OnInit {
   ] as ListColumn[];
   constructor(
     private membreService: MembreService,
+    private dahiraSerivice: DahiraService,
+    private dialog: MatDialog
     // private dialogConfirmationService: DialogConfirmationService,
   ) { }
 
@@ -61,6 +70,7 @@ export class ListeMembreComponent implements OnInit {
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
+
   getMembres() {
     this.membreService.listeMembre().subscribe(
       (response) => {
@@ -74,4 +84,29 @@ export class ListeMembreComponent implements OnInit {
       }
     );
   }
+  createMembre() {
+    this.dialog.open(AjoutMembreComponent).afterClosed().subscribe((membre: Membre) => {
+      /**
+       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       */
+      if (membre) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+        this.membres.unshift(membre);
+        this.subject$.next(this.membres);
+      }
+    });
+  }
+  onFilterChange(value) {
+    if (!this.dataSource) {
+      return;
+    }
+    value = value.trim();
+    value = value.toLowerCase();
+    this.dataSource.filter = value;
+  }
+
+
 }

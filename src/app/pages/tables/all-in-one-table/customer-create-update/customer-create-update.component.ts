@@ -29,7 +29,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
 
     this.form = this.fb.group({
       id: [CustomerCreateUpdateComponent.id++],
-      firstName: [this.defaults.firstName || '',],
+      firstName: [this.defaults.firstName || '', ] ,
       lastName: [this.defaults.lastName || ''],
       street: this.defaults.street || '',
       city: this.defaults.city || '',
