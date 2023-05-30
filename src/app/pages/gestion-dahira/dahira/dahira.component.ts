@@ -7,6 +7,8 @@ import { MatSort } from '@angular/material/sort';
 import { ListColumn } from 'src/@fury/shared/list/list-column.model';
 import { DahiraService } from '../shared/services/dahira.service';
 import { filter } from 'rxjs/operators';
+import { AjoutOuModifierDahiraComponent } from './ajout-ou-modifier-dahira/ajout-ou-modifier-dahira.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'fury-dahira',
@@ -36,7 +38,8 @@ export class DahiraComponent implements OnInit {
   ] as ListColumn[];
 
   constructor(
-    private dahiraService: DahiraService
+    private dahiraService: DahiraService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -64,5 +67,31 @@ export class DahiraComponent implements OnInit {
       }
     );
   }
+
+  createDahira() {
+    this.dialog.open(AjoutOuModifierDahiraComponent).afterClosed().subscribe((dahira: Dahira) => {
+      /**
+       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       */
+      if (dahira) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+        this.dahiras.unshift(dahira);
+        this.subject$.next(this.dahiras);
+      }
+    });
+  }
+  onFilterChange(value) {
+    if (!this.dataSource) {
+      return;
+    }
+    value = value.trim();
+    value = value.toLowerCase();
+    this.dataSource.filter = value;
+  }
+
+
 
 }

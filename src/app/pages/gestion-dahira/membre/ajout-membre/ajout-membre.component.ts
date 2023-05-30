@@ -23,7 +23,7 @@ export class AjoutMembreComponent implements OnInit {
   form: FormGroup;
 
   membre: Membre;
-  dahira: Dahira;
+  dahira: any;
   fonction: Fonction;
   mode: 'create' | 'update' = 'create';
   dahiras: any;
@@ -52,10 +52,12 @@ export class AjoutMembreComponent implements OnInit {
       matricule: [this.defaults.matricule || '', ],
       prenom: [this.defaults.prenom || ''],
       nom: this.defaults.nom || '',
-      sexe: this.defaults.nom || '',
-      telephone: this.defaults.nom || '',
-      scolarite: this.defaults.nom || '',
+      sexe: this.defaults.sexe || '',
+      telephone: this.defaults.telephone || '',
+      scolarite: this.defaults.scolarite || '',
+      // dahira: this.defaults.code
     });
+    this.getDahira();
   }
   filterStates(name: string) {
     return this.dahiras.filter(dahira =>

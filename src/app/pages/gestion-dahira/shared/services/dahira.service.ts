@@ -13,9 +13,9 @@ export class DahiraService {
 
   constructor(private _httpClient: HttpClient) { }
 
-  ajouterDahita(dahire: Dahira): Observable<any> {
+  ajouterDahira(dahira: Dahira): Observable<any> {
 
-     return this._httpClient.post<Dahira>(this.url, dahire, {
+     return this._httpClient.post<Dahira>(this.url, dahira, {
       observe: 'response'
      });
 
