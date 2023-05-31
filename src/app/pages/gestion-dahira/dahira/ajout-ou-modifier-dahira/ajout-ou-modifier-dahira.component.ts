@@ -27,11 +27,11 @@ export class AjoutOuModifierDahiraComponent implements OnInit {
   stateCtrl: FormControl = new FormControl();
   dataSource: MatTableDataSource<Dahira> | null;
 
-  constructor( @Inject(MAT_DIALOG_DATA) public defaults: any,
-  private dialogRef: MatDialogRef<AjoutOuModifierDahiraComponent>,
-  private fb: FormBuilder,
-  private dahiraSerivice: DahiraService,
-  private sectionService: SectionService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
+    private dialogRef: MatDialogRef<AjoutOuModifierDahiraComponent>,
+    private fb: FormBuilder,
+    private dahiraSerivice: DahiraService,
+    private sectionService: SectionService) { }
 
   ngOnInit(): void {
     if (this.defaults) {
@@ -41,7 +41,7 @@ export class AjoutOuModifierDahiraComponent implements OnInit {
     }
     this.form = this.fb.group({
       id: [AjoutOuModifierDahiraComponent.id++],
-      code: [this.defaults.code || '', ],
+      code: [this.defaults.code || '',],
       nom: [this.defaults.nom || ''],
       adresse: this.defaults.adresse || '',
       telephone: this.defaults.telephone || ''
@@ -58,6 +58,7 @@ export class AjoutOuModifierDahiraComponent implements OnInit {
   createDahira() {
 
     const dahira: Dahira = this.form.value;
+    dahira.section = this.section;
     this.dahiraSerivice.ajouterDahira(dahira).subscribe();
 
   }
@@ -74,19 +75,19 @@ export class AjoutOuModifierDahiraComponent implements OnInit {
     this.sectionService.listeSection().subscribe((response) => {
       this.sections = response.body;
     },
-    (err) => {
-    },
-    () => {
-      this.filteredStates = this.stateCtrl.valueChanges.pipe(
-        startWith(''),
-        map(state => state ? this.filterStates(state) : this.sections.slice())
-      );
-    }
+      (err) => {
+      },
+      () => {
+        this.filteredStates = this.stateCtrl.valueChanges.pipe(
+          startWith(''),
+          map(state => state ? this.filterStates(state) : this.sections.slice())
+        );
+      }
     );
-      }
-      setSection(section) {
-        this.section = section;
-      }
+  }
+  setSection(section) {
+    this.section = section;
+  }
   onFilterChange(value) {
     if (!this.dataSource) {
       return;

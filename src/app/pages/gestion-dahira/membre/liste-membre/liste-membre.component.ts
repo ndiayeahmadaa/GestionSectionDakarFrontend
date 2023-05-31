@@ -85,7 +85,10 @@ export class ListeMembreComponent implements OnInit {
     );
   }
   createMembre() {
-    this.dialog.open(AjoutMembreComponent).afterClosed().subscribe((membre: Membre) => {
+    this.dialog.open(AjoutMembreComponent, {
+      height: '60%',
+      width:  '60%',
+    }).afterClosed().subscribe((membre: Membre) => {
       /**
        * Customer is the updated customer (if the user pressed Save - otherwise it's null)
        */
