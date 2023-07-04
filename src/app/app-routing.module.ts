@@ -30,12 +30,16 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
+        path: 'gestion-dahira/membre',
+        loadChildren: () => import('./pages/gestion-dahira/membre/membre.module').then(m => m.MembreModule),
+      },
+      {
         path: 'gestion-dahira/dahira',
         loadChildren: () => import('./pages/gestion-dahira/dahira/dahira.module').then(m => m.DahiraModule),
       },
       {
-        path: 'gestion-dahira/membre',
-        loadChildren: () => import('./pages/gestion-dahira/membre/membre.module').then(m => m.MembreModule),
+        path: 'parametrage/fonction',
+        loadChildren: () => import('./pages/parametrage/fonction/fonction.module').then(m => m.FonctionModule)
       },
       {
         path: 'apps/inbox',

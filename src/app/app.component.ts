@@ -67,11 +67,11 @@ export class AppComponent {
       {
         name: 'Parametrage',
         icon: 'description',
-        position: 7,
+        position: 13,
         subItems: [
           {
             name: 'Fonction',
-            routeOrFunction: '/gestion-dahira/parametrage/fonction/liste-fonction',
+            routeOrFunction: '/parametrage/fonction/liste-fonction',
             position: 8
           },
         ]
@@ -80,7 +80,7 @@ export class AppComponent {
         name: 'Dashboard',
         routeOrFunction: '/',
         icon: 'dashboard',
-        position: 10,
+        position: 12,
         pathMatchExact: true
       },
       {

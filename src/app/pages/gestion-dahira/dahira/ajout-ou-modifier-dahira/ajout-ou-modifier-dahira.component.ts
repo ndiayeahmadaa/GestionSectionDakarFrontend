@@ -41,7 +41,7 @@ export class AjoutOuModifierDahiraComponent implements OnInit {
     }
     this.form = this.fb.group({
       id: [AjoutOuModifierDahiraComponent.id++],
-      code: [this.defaults.code || '',],
+      code: [this.defaults.code || '', ],
       nom: [this.defaults.nom || ''],
       adresse: this.defaults.adresse || '',
       telephone: this.defaults.telephone || ''

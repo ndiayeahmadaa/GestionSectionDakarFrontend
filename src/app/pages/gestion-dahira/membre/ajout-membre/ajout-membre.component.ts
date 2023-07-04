@@ -62,7 +62,7 @@ export class AjoutMembreComponent implements OnInit {
        fonction: this.getFonction()
     });
     // this.getFonction();
-    // this.getDahira();
+    this.getDahira();
 
   }
   filterStates(name: string) {
