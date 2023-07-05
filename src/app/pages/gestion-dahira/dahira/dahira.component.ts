@@ -9,11 +9,15 @@ import { DahiraService } from '../shared/services/dahira.service';
 import { filter } from 'rxjs/operators';
 import { AjoutOuModifierDahiraComponent } from './ajout-ou-modifier-dahira/ajout-ou-modifier-dahira.component';
 import { MatDialog } from '@angular/material/dialog';
+import { fadeInUpAnimation } from 'src/@fury/animations/fade-in-up.animation';
+import { fadeInRightAnimation } from 'src/@fury/animations/fade-in-right.animation';
+import { scaleInAnimation } from 'src/@fury/animations/scale-in.animation';
 
 @Component({
   selector: 'fury-dahira',
   templateUrl: './dahira.component.html',
-  styleUrls: ['./dahira.component.scss']
+  styleUrls: ['./dahira.component.scss'],
+  animations: [fadeInUpAnimation, fadeInRightAnimation, scaleInAnimation]
 })
 export class DahiraComponent implements OnInit {
 

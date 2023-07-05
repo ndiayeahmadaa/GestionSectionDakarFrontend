@@ -81,7 +81,7 @@ export class AjoutMembreComponent implements OnInit {
     membre.fonction = this.fonction;
     console.log('membre saved ', membre);
     this.membreService.ajouterMembre(membre).subscribe((response) => {
-
+      this.dialogRef.close(response.body);
     });
 
   }

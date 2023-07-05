@@ -8,12 +8,16 @@ import { DahiraService } from '../../shared/services/dahira.service';
 import { SectionService } from '../../shared/services/section.service';
 import { CommonModule } from '@angular/common';
 import { map, startWith } from 'rxjs/operators';
+import { fadeInUpAnimation } from 'src/@fury/animations/fade-in-up.animation';
+import { fadeInRightAnimation } from 'src/@fury/animations/fade-in-right.animation';
+import { scaleInAnimation } from 'src/@fury/animations/scale-in.animation';
 
 
 @Component({
   selector: 'fury-ajout-ou-modifier-dahira',
   templateUrl: './ajout-ou-modifier-dahira.component.html',
-  styleUrls: ['./ajout-ou-modifier-dahira.component.scss']
+  styleUrls: ['./ajout-ou-modifier-dahira.component.scss'],
+  animations: [fadeInUpAnimation, fadeInRightAnimation, scaleInAnimation]
 })
 export class AjoutOuModifierDahiraComponent implements OnInit {
 
@@ -23,8 +27,10 @@ export class AjoutOuModifierDahiraComponent implements OnInit {
   section: any;
   dahira: Dahira;
   mode: 'create' | 'update' = 'create';
-  filteredStates: Observable<any[]>;
-  stateCtrl: FormControl = new FormControl();
+  filteredStatesDahira: Observable<any[]>;
+  stateCtrlDahira: FormControl = new FormControl();
+  filteredStatesSection: Observable<any[]>;
+  stateCtrlSection: FormControl = new FormControl();
   dataSource: MatTableDataSource<Dahira> | null;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
@@ -44,7 +50,7 @@ export class AjoutOuModifierDahiraComponent implements OnInit {
       code: [this.defaults.code || '', ],
       nom: [this.defaults.nom || ''],
       adresse: this.defaults.adresse || '',
-      telephone: this.defaults.telephone || ''
+      telephone: this.defaults.telephone || '',
       // dahira: this.defaults.code
     });
     this.getSection();
@@ -59,7 +65,10 @@ export class AjoutOuModifierDahiraComponent implements OnInit {
 
     const dahira: Dahira = this.form.value;
     dahira.section = this.section;
-    this.dahiraSerivice.ajouterDahira(dahira).subscribe();
+    console.log('membre saved ', dahira);
+    this.dahiraSerivice.ajouterDahira(dahira).subscribe((response) => {
+      this.dialogRef.close(response.body);
+    });
 
   }
   save() {
@@ -78,7 +87,7 @@ export class AjoutOuModifierDahiraComponent implements OnInit {
       (err) => {
       },
       () => {
-        this.filteredStates = this.stateCtrl.valueChanges.pipe(
+        this.filteredStatesSection = this.stateCtrlSection.valueChanges.pipe(
           startWith(''),
           map(state => state ? this.filterStates(state) : this.sections.slice())
         );
