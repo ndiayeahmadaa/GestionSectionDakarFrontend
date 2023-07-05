@@ -10,6 +10,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
+import { NotificationService } from '../../../shared/services/notification.service';
+import { DialogUtil, NotificationUtil } from '../../../shared/util/util';
+import { DialogConfirmationService } from '../../../shared/services/dialog-confirmation.service';
 
 
 @Component({
@@ -36,7 +39,8 @@ export class AjoutMembreComponent implements OnInit {
   // data$: Observable<Membre[]> = this.subject$.asObservable();
   dataSource: MatTableDataSource<Membre> | null;
   constructor(
-
+    private notificationService: NotificationService,
+    private dialogConfirmationService: DialogConfirmationService,
     @Inject(MAT_DIALOG_DATA) public defaults: any,
     private dialogRef: MatDialogRef<AjoutMembreComponent>,
     private fb: FormBuilder,
@@ -75,15 +79,20 @@ export class AjoutMembreComponent implements OnInit {
       dahira.nom.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
   createMembre() {
-
+    this.dialogConfirmationService.confirmationDialog().subscribe(action => {
+      if (action === DialogUtil.confirmer) {
     const membre: Membre = this.form.value;
     membre.dahira = this.dahira;
     membre.fonction = this.fonction;
     console.log('membre saved ', membre);
     this.membreService.ajouterMembre(membre).subscribe((response) => {
+      this.notificationService.success(NotificationUtil.ajout);
       this.dialogRef.close(response.body);
-    });
-
+    }
+    );
+  }
+}
+    );
   }
 
   save() {
