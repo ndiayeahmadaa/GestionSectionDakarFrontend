@@ -67,12 +67,12 @@ export class AppComponent {
       {
         name: 'Parametrage',
         icon: 'description',
-        position: 13,
+        position: 10,
         subItems: [
           {
             name: 'Fonction',
             routeOrFunction: '/parametrage/fonction/liste-fonction',
-            position: 8
+            position: 11
           },
         ]
       },

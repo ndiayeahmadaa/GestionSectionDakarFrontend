@@ -29,8 +29,10 @@ export class AjoutMembreComponent implements OnInit {
   dahiras: any;
   fonctions: any;
   mode: 'create' | 'update' = 'create';
-  filteredStates: Observable<any[]>;
-  stateCtrl: FormControl = new FormControl();
+  filteredStatesDahira: Observable<any[]>;
+  stateCtrlDahira: FormControl = new FormControl();
+  filteredStatesFonction: Observable<any[]>;
+  stateCtrlFonction: FormControl = new FormControl();
   // data$: Observable<Membre[]> = this.subject$.asObservable();
   dataSource: MatTableDataSource<Membre> | null;
   constructor(
@@ -55,13 +57,15 @@ export class AjoutMembreComponent implements OnInit {
       matricule: [this.defaults.matricule || ''],
       prenom: [this.defaults.prenom || ''],
       nom: this.defaults.nom || '',
+      adresse: this.defaults.adresse || '',
+      age: this.defaults.age || '',
       sexe: this.defaults.sexe || '',
       telephone: this.defaults.telephone || '',
       scolarite: this.defaults.scolarite || '',
        dahira: this.getDahira(),
        fonction: this.getFonction()
     });
-    // this.getFonction();
+    this.getFonction();
     this.getDahira();
 
   }
@@ -98,7 +102,7 @@ export class AjoutMembreComponent implements OnInit {
       (err) => {
       },
       () => {
-        this.filteredStates = this.stateCtrl.valueChanges.pipe(
+        this.filteredStatesDahira = this.stateCtrlDahira.valueChanges.pipe(
           startWith(''),
           map(state => state ? this.filterStates(state) : this.dahiras.slice())
         );
@@ -112,7 +116,7 @@ export class AjoutMembreComponent implements OnInit {
       (err) => {
       },
       () => {
-        this.filteredStates = this.stateCtrl.valueChanges.pipe(
+        this.filteredStatesFonction = this.stateCtrlFonction.valueChanges.pipe(
           startWith(''),
           map(state => state ? this.filterStates(state) : this.fonctions.slice())
         );
