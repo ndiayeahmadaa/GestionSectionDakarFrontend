@@ -5,10 +5,9 @@ import { DialogUtil } from '../../util/util';
 @Component({
   selector: 'fury-dialog',
   templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.scss']
+  styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent implements OnInit {
- 
   dialogUtil: DialogUtil = new DialogUtil();
   annuler: string;
   confirmer: string;

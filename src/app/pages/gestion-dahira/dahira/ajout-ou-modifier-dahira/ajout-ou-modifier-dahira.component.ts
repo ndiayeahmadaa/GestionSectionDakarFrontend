@@ -11,6 +11,9 @@ import { map, startWith } from 'rxjs/operators';
 import { fadeInUpAnimation } from 'src/@fury/animations/fade-in-up.animation';
 import { fadeInRightAnimation } from 'src/@fury/animations/fade-in-right.animation';
 import { scaleInAnimation } from 'src/@fury/animations/scale-in.animation';
+import { NotificationService } from 'src/app/pages/shared/services/notification.service';
+import { DialogConfirmationService } from 'src/app/pages/shared/services/dialog-confirmation.service';
+import { DialogUtil, NotificationUtil } from 'src/app/pages/shared/util/util';
 
 
 @Component({
@@ -33,7 +36,10 @@ export class AjoutOuModifierDahiraComponent implements OnInit {
   stateCtrlSection: FormControl = new FormControl();
   dataSource: MatTableDataSource<Dahira> | null;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
+  constructor(
+    private notificationService: NotificationService,
+    private dialogConfirmationService: DialogConfirmationService,
+    @Inject(MAT_DIALOG_DATA) public defaults: any,
     private dialogRef: MatDialogRef<AjoutOuModifierDahiraComponent>,
     private fb: FormBuilder,
     private dahiraSerivice: DahiraService,
@@ -62,14 +68,19 @@ export class AjoutOuModifierDahiraComponent implements OnInit {
       section.nom.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
   createDahira() {
-
+    this.dialogConfirmationService.confirmationDialog().subscribe(action => {
+      if (action === DialogUtil.confirmer) {
     const dahira: Dahira = this.form.value;
     dahira.section = this.section;
     console.log('membre saved ', dahira);
     this.dahiraSerivice.ajouterDahira(dahira).subscribe((response) => {
+      this.notificationService.success(NotificationUtil.ajout);
       this.dialogRef.close(response.body);
-    });
-
+    }
+    );
+  }
+}
+    );
   }
   save() {
     if (this.mode === 'create') {
