@@ -1,1 +1,35 @@
-<p>add-update-fonction works!</p>
+<div mat-dialog-title>Membre</div>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content>
+    <div class="person">
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+        <mat-form-field fxFlex>
+          <mat-label>Code</mat-label>
+          <input type="text" formControlName="code" matInput />
+        </mat-form-field>
+
+        <mat-form-field fxFlex>
+          <mat-label>Nom</mat-label>
+          <input type="text" formControlName="nom" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    
+    <!-- 
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field fxFlex>
+        <mat-label>Phone Number</mat-label>
+        <input type="text" formControlName="phoneNumber" matInput>
+      </mat-form-field>
+    </div> -->
+  </mat-dialog-content>
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button *ngIf="isCreateMode()" mat-button [disabled]="!form.valid">
+      CREATE FONCTION
+    </button>
+    <!-- <button *ngIf="isUpdateMode()" mat-button [disabled]="!form.valid">UPDATE CUSTOMER</button> -->
+  </mat-dialog-actions>
+</form>
+

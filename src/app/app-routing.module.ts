@@ -38,6 +38,10 @@ const routes: Routes = [
         loadChildren: () => import('./pages/gestion-dahira/dahira/dahira.module').then(m => m.DahiraModule),
       },
       {
+        path: 'gestion-dahira/section',
+        loadChildren: () => import('./pages/gestion-dahira/section/section.module').then(m => m.SectionModule),
+      },
+      {
         path: 'parametrage/fonction',
         loadChildren: () => import('./pages/parametrage/fonction/fonction.module').then(m => m.FonctionModule)
       },

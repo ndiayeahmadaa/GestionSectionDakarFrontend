@@ -8,6 +8,8 @@ import { MatSort } from '@angular/material/sort';
 import { ListColumn } from 'src/@fury/shared/list/list-column.model';
 import { FonctionService } from '../../shared/services/fonction.service';
 import { MatDialog } from '@angular/material/dialog';
+import { filter, map, startWith } from 'rxjs/operators';
+import { AddUpdateFonctionComponent } from '../add-update-fonction/add-update-fonction.component';
 
 @Component({
   selector: 'fury-liste-fonction',
@@ -22,7 +24,7 @@ export class ListeFonctionComponent implements OnInit {
   subject$: ReplaySubject<Fonction[]> = new ReplaySubject<Fonction[]>(
     1
   );
-  ata$: Observable<Fonction[]> = this.subject$.asObservable();
+  data$: Observable<Fonction[]> = this.subject$.asObservable();
   dataSource: MatTableDataSource<Fonction> | null;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -40,6 +42,13 @@ export class ListeFonctionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getFonction();
+    this.dataSource = new MatTableDataSource();
+
+    this.data$.pipe(filter((data) => !!data)).subscribe((agents) => {
+      this.fonctions = this.fonctions;
+      this.dataSource.data = this.fonctions;
+    });
   }
   getFonction() {
     this.fonctionService.listeFonction().subscribe(
@@ -53,6 +62,35 @@ export class ListeFonctionComponent implements OnInit {
         this.subject$.next(this.fonctions);
       }
     );
+  }
+  get visibleColumns() {
+    return this.columns.filter(column => column.visible).map(column => column.property);
+  }
+  createFonction() {
+    this.dialog.open(AddUpdateFonctionComponent, {
+      height: '30%',
+      width: '30%',
+    }).afterClosed().subscribe((fonction: Fonction) => {
+      /**
+       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       */
+      if (fonction) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+        this.fonctions.unshift(fonction);
+        this.subject$.next(this.fonctions);
+      }
+    });
+  }
+  onFilterChange(value) {
+    if (!this.dataSource) {
+      return;
+    }
+    value = value.trim();
+    value = value.toLowerCase();
+    this.dataSource.filter = value;
   }
 
 }
