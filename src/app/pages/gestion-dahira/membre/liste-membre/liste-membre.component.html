@@ -85,9 +85,11 @@
               yPosition="below"
               xPosition="before">
               <button (click)="updateMembre(row)" mat-menu-item>
+                <mat-icon>edit</mat-icon>
                 <span>Modifier</span>
               </button>
-              <button (click)="deleteCustomer(row)" mat-menu-item>
+              <button (click)="deleteMembre(row)" mat-menu-item>
+                <mat-icon>delete</mat-icon>
                 <span>Supprimer</span>
               </button>
             </mat-menu>

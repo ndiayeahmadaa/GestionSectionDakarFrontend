@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ListColumn } from 'src/@fury/shared/list/list-column.model';
 // @ts-ignore
-import { DialogConfirmationService } from '../../../../shared/services/dialog-confirmation.service';
+import { DialogConfirmationService } from 'src/app/pages/shared/services/dialog-confirmation.service';
 import { Observable, ReplaySubject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter, map, startWith } from 'rxjs/operators';
@@ -15,6 +15,8 @@ import { AjoutMembreComponent } from '../ajout-membre/ajout-membre.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DahiraService } from '../../shared/services/dahira.service';
 import { FormControl } from '@angular/forms';
+import { DialogUtil, NotificationUtil } from 'src/app/pages/shared/util/util';
+import { NotificationService } from 'src/app/pages/shared/services/notification.service';
 
 @Component({
   selector: 'fury-liste-membre',
@@ -55,6 +57,8 @@ export class ListeMembreComponent implements OnInit {
   ] as ListColumn[];
   constructor(
     private membreService: MembreService,
+    private dialogConfirmationService: DialogConfirmationService,
+    private notificationService: NotificationService,
     private dahiraSerivice: DahiraService,
     private dialog: MatDialog
     // private dialogConfirmationService: DialogConfirmationService,
@@ -125,6 +129,26 @@ export class ListeMembreComponent implements OnInit {
       }
     });
   }
+  deleteMembre(membre: Membre) {
+    this.dialogConfirmationService.confirmationDialog().subscribe(action => {
+      if (action === DialogUtil.confirmer) {
+    this.membreService
+      .deleteMembre(membre)
+      .subscribe((response) => {
+        this.notificationService.success(NotificationUtil.suppression);
+        this.membre.splice(
+          this.membres.findIndex(
+            (existingDossierConge) =>
+              existingDossierConge.id === membre.id
+          ),
+          1
+        );
+        this.subject$.next(this.membres);
+      });
+    }
+  }
+  );
+}
   onFilterChange(value) {
     if (!this.dataSource) {
       return;

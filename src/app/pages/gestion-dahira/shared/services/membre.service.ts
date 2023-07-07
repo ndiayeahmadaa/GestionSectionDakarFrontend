@@ -12,6 +12,11 @@ export class MembreService {
   // headers = new HttpHeaders();
 
   url = 'http://localhost:8089/membres';
+  httpOptions = {
+    headers: new HttpHeaders({
+      'content-type': 'application/json',
+    }),
+  };
 
   constructor(private _httpClient: HttpClient) {
     // this.headers = this.headers.set('content-type', 'undefined');
@@ -34,6 +39,13 @@ export class MembreService {
       observe: 'response',
     })
       .pipe(catchError(this.errorHandler));
+  }
+  deleteMembre(membre: Membre): Observable<HttpResponse<any>> {
+    const httpOptions = {
+      headers: this.httpOptions.headers,
+      body: membre,
+    };
+    return this._httpClient.delete<any>(this.url, httpOptions);
   }
 
   errorHandler(error) {
