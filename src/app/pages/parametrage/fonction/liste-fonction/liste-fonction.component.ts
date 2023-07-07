@@ -35,6 +35,7 @@ export class ListeFonctionComponent implements OnInit {
     // { name: 'ID', property: 'id', visible: true },
     { name: 'Nom', property: 'nom', visible: true, isModelProperty: true },
     { name: 'Code', property: 'code', visible: true, isModelProperty: true },
+    { name: 'Actions', property: 'actions', visible: true },
   ] as ListColumn[];
   constructor(
     private fonctionService: FonctionService,
@@ -80,6 +81,26 @@ export class ListeFonctionComponent implements OnInit {
          * You would probably make an HTTP request here.
          */
         this.fonctions.unshift(fonction);
+        this.subject$.next(this.fonctions);
+      }
+    });
+  }
+  updateFonction(fonction: Fonction) {
+    this.dialog.open(AddUpdateFonctionComponent, {
+      height: '40%',
+      width:  '60%',
+      data: fonction,
+    // tslint:disable-next-line:no-shadowed-variable
+    }).afterClosed().subscribe((fonction) => {
+      /**
+       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       */
+      if (fonction) {
+        const index = this.fonctions.findIndex(
+          (existingFonction) =>
+          existingFonction.id === fonction.id
+        );
+        this.fonctions[index] = fonction;
         this.subject$.next(this.fonctions);
       }
     });

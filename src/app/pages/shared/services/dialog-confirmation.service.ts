@@ -14,8 +14,8 @@ export class DialogConfirmationService {
   public confirmationDialog(): Observable<any> {
     return this.dialog.open(DialogComponent, {
       disableClose: false,
-      height: "40%",
-      width:  "35%",
+      height: '40%',
+      width:  '35%',
     }).afterClosed();
   }
 }

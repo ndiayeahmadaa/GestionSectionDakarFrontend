@@ -4,6 +4,12 @@
   <mat-dialog-content>
     <div class="person">
       <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+
+        <mat-form-field fxFlex>
+          <mat-label>Matricule</mat-label>
+          <input type="text" formControlName="matricule" matInput />
+        </mat-form-field>
+
         <mat-form-field fxFlex>
           <mat-label>Renseigner le Dahira</mat-label>
           <input
@@ -25,7 +31,7 @@
             *ngIf="stateCtrlDahira.value"
             type="button"
             mat-icon-button
-            (click)="stateCtrl.reset()"
+            (click)="stateCtrlDahira.reset()"
             matSuffix>
             <mat-icon>close</mat-icon>
           </button>
@@ -59,7 +65,7 @@
             *ngIf="stateCtrlFonction.value"
             type="button"
             mat-icon-button
-            (click)="stateCtrl.reset()"
+            (click)="stateCtrlFonction.reset()"
             matSuffix>
             <mat-icon>close</mat-icon>
           </button>
@@ -70,11 +76,6 @@
             matSuffix>
             <mat-icon>arrow_drop_down</mat-icon>
           </button>
-        </mat-form-field>
-
-        <mat-form-field fxFlex>
-          <mat-label>Matricule</mat-label>
-          <input type="text" formControlName="matricule" matInput />
         </mat-form-field>
 
         <mat-form-field fxFlex>
@@ -93,7 +94,7 @@
         <mat-label>Adresse</mat-label>
         <input type="text" formControlName="adresse" matInput />
       </mat-form-field>
-      <mat-radio-group
+      <!-- <mat-radio-group
         color="accent"
         fxLayout="row"
         fxLayoutGap="16px"
@@ -101,7 +102,14 @@
         <mat-label>Sexe</mat-label>
         <mat-radio-button color="primary" value="m">Homme </mat-radio-button>
         <mat-radio-button color="accent" value="f">Femme</mat-radio-button>
-      </mat-radio-group>
+      </mat-radio-group> -->
+      <mat-form-field fxFlex="none">
+        <mat-label>Sexe</mat-label>
+        <mat-select formControlName="sexe">
+          <mat-option value="Masculin">Masculin</mat-option>
+          <mat-option value="Feminin">Feminin</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
@@ -128,9 +136,8 @@
     </div> -->
   </mat-dialog-content>
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
-    <button *ngIf="isCreateMode()" mat-button [disabled]="!form.valid">
-      CREATE MEMBRE
-    </button>
+    <button *ngIf="isCreateMode()" mat-button [disabled]="!form.valid">CREATE MEMBRE</button>
+    <button *ngIf="isUpdateMode()" mat-button [disabled]="!form.valid">UPDATE MEMBRE</button>
     <!-- <button *ngIf="isUpdateMode()" mat-button [disabled]="!form.valid">UPDATE CUSTOMER</button> -->
   </mat-dialog-actions>
 </form>

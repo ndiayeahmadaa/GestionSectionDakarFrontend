@@ -57,7 +57,6 @@ export class AjoutMembreComponent implements OnInit {
     }
 
     this.form = this.fb.group({
-      id: [AjoutMembreComponent.id++],
       matricule: [this.defaults.matricule || ''],
       prenom: [this.defaults.prenom || ''],
       nom: this.defaults.nom || '',
@@ -66,8 +65,8 @@ export class AjoutMembreComponent implements OnInit {
       sexe: this.defaults.sexe || '',
       telephone: this.defaults.telephone || '',
       scolarite: this.defaults.scolarite || '',
-       dahira: this.getDahira(),
-       fonction: this.getFonction()
+      dahira: this.getDahira(),
+      fonction: this.getFonction()
     });
     this.getFonction();
     this.getDahira();
@@ -81,28 +80,53 @@ export class AjoutMembreComponent implements OnInit {
   createMembre() {
     this.dialogConfirmationService.confirmationDialog().subscribe(action => {
       if (action === DialogUtil.confirmer) {
-    const membre: Membre = this.form.value;
-    membre.dahira = this.dahira;
-    membre.fonction = this.fonction;
-    console.log('membre saved ', membre);
-    this.membreService.ajouterMembre(membre).subscribe((response) => {
-      this.notificationService.success(NotificationUtil.ajout);
-      this.dialogRef.close(response.body);
+        const membre: Membre = this.form.value;
+        membre.dahira = this.dahira;
+        membre.fonction = this.fonction;
+        console.log('membre saved ', membre);
+        this.membreService.ajouterMembre(membre).subscribe((response) => {
+          this.notificationService.success(NotificationUtil.ajout);
+          this.dialogRef.close(response.body);
+        }
+        );
+      }
     }
     );
   }
-}
-    );
+
+  updateMembre() {
+    this.dialogConfirmationService.confirmationDialog().subscribe(action => {
+      if (action === DialogUtil.confirmer) {
+        let membre: Membre = this.defaults;
+        membre = Object.assign(membre, this.form.value);
+        membre.fonction = this.fonction;
+        membre.dahira = this.dahira;
+        this.membreService.modifierMembre(membre).subscribe(
+          response => {
+            this.notificationService.success(NotificationUtil.modification);
+            this.dialogRef.close(membre);
+          }, (err) => {
+            this.notificationService.success(NotificationUtil.echec);
+          }
+        );
+      }
+    });
   }
 
   save() {
     if (this.mode === 'create') {
       this.createMembre();
+    } else if (this.mode === 'update') {
+      this.updateMembre();
     }
   }
 
   isCreateMode() {
     return this.mode === 'create';
+  }
+
+  isUpdateMode() {
+    return this.mode === 'update';
   }
   getDahira() {
     this.dahiraSerivice.listeDahira().subscribe((response) => {
@@ -115,6 +139,10 @@ export class AjoutMembreComponent implements OnInit {
           startWith(''),
           map(state => state ? this.filterStates(state) : this.dahiras.slice())
         );
+
+        if (this.mode === 'update') {
+          this.setDahira(this.defaults.dahira);
+        }
       }
     );
   }
@@ -129,6 +157,10 @@ export class AjoutMembreComponent implements OnInit {
           startWith(''),
           map(state => state ? this.filterStates(state) : this.fonctions.slice())
         );
+
+        if (this.mode === 'update') {
+          this.setFonction(this.defaults.fonction);
+        }
       }
     );
   }
@@ -136,10 +168,14 @@ export class AjoutMembreComponent implements OnInit {
 
   setDahira(dahira) {
     this.dahira = dahira;
+    this.stateCtrlDahira.setValue(dahira.code + ' ' + dahira.nom);
   }
   setFonction(fonction) {
+    this.stateCtrlFonction.setValue(fonction.code);
     this.fonction = fonction;
   }
+
+
 
   onFilterChange(value) {
     if (!this.dataSource) {

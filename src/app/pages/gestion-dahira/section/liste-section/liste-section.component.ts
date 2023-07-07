@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SectionService } from '../../shared/services/section.service';
 import { MatDialog } from '@angular/material/dialog';
 import { filter } from 'rxjs/operators';
+import { AjoutOuModifierSectionComponent } from '../ajout-ou-modifier-section/ajout-ou-modifier-section.component';
 
 @Component({
   selector: 'fury-liste-section',
@@ -32,6 +33,7 @@ export class ListeSectionComponent implements OnInit {
     { name: 'Nom', property: 'nom', visible: true, isModelProperty: true },
     { name: 'Adresse', property: 'adresse', visible: true, isModelProperty: true },
     { name: 'Telephone', property: 'telephone', visible: true, isModelProperty: true },
+    { name: 'Actions', property: 'actions', visible: true },
   ] as ListColumn[];
 
   constructor(
@@ -62,6 +64,44 @@ export class ListeSectionComponent implements OnInit {
         this.subject$.next(this.sections);
       }
     );
+  }
+  createSection() {
+    this.dialog.open(AjoutOuModifierSectionComponent, {
+      height: '30%',
+      width:  '50%',
+    }).afterClosed().subscribe((section: Section) => {
+      /**
+       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       */
+      if (section) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+        this.sections.unshift(section);
+        this.subject$.next(this.sections);
+      }
+    });
+  }
+  updateSection(section: Section) {
+    this.dialog.open(AjoutOuModifierSectionComponent, {
+      height: '40%',
+      width:  '60%',
+      data: section,
+    // tslint:disable-next-line:no-shadowed-variable
+    }).afterClosed().subscribe((section) => {
+      /**
+       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       */
+      if (section) {
+        const index = this.sections.findIndex(
+          (existingSection) =>
+          existingSection.id === section.id
+        );
+        this.sections[index] = section;
+        this.subject$.next(this.sections);
+      }
+    });
   }
   onFilterChange(value) {
     if (!this.dataSource) {

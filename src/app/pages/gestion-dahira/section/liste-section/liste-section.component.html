@@ -3,14 +3,14 @@
       <fury-breadcrumbs
         [@fadeInRight]
         [crumbs]="[]"
-        current="Membres"></fury-breadcrumbs>
+        current="Sections"></fury-breadcrumbs>
     </fury-page-layout-header>
   
     <fury-page-layout-content [@fadeInUp]>
-      <fury-list name="Membres" [columns]="columns"
+      <fury-list name="Sections" [columns]="columns"
         (filterChange)="onFilterChange($event)">
         <div class="actions">
-          <button class="create"  type="button"
+          <button class="create" (click)="createSection()" type="button"
             mat-mini-fab color="primary">
             <mat-icon>add</mat-icon>
           </button>
@@ -84,7 +84,7 @@
                 #actionsMenu="matMenu"
                 yPosition="below"
                 xPosition="before">
-                <button (click)="updateCustomer(row)" mat-menu-item>
+                <button (click)="updateSection(row)" mat-menu-item>
                   <span>Modify</span>
                 </button>
                 <button (click)="deleteCustomer(row)" mat-menu-item>

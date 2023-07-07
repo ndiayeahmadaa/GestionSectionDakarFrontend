@@ -52,7 +52,7 @@ export class AjoutOuModifierDahiraComponent implements OnInit {
       this.defaults = {} as Dahira;
     }
     this.form = this.fb.group({
-      id: [AjoutOuModifierDahiraComponent.id++],
+      // id: [AjoutOuModifierDahiraComponent.id++],
       code: [this.defaults.code || '', ],
       nom: [this.defaults.nom || ''],
       adresse: this.defaults.adresse || '',
@@ -82,13 +82,36 @@ export class AjoutOuModifierDahiraComponent implements OnInit {
 }
     );
   }
+  updateDahira() {
+    this.dialogConfirmationService.confirmationDialog().subscribe(action => {
+      if (action === DialogUtil.confirmer) {
+        let dahira: Dahira = this.defaults;
+        dahira = Object.assign(dahira, this.form.value);
+        dahira.section = this.section;
+        // membre.dahira = this.dahira;
+        this.dahiraSerivice.modifierDahire(dahira).subscribe(
+          response => {
+            this.notificationService.success(NotificationUtil.modification);
+            this.dialogRef.close(dahira);
+          }, (err) => {
+            this.notificationService.success(NotificationUtil.echec);
+          }
+        );
+      }
+    });
+  }
   save() {
     if (this.mode === 'create') {
       this.createDahira();
+    } else if (this.mode === 'update') {
+      this.updateDahira();
     }
   }
   isCreateMode() {
     return this.mode === 'create';
+  }
+  isUpdateMode() {
+    return this.mode === 'update';
   }
 
   getSection() {
@@ -102,6 +125,9 @@ export class AjoutOuModifierDahiraComponent implements OnInit {
           startWith(''),
           map(state => state ? this.filterStates(state) : this.sections.slice())
         );
+        if (this.mode === 'update') {
+          this.setSection(this.defaults.section);
+        }
       }
     );
   }

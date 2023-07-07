@@ -39,6 +39,7 @@ export class DahiraComponent implements OnInit {
     { name: 'Adresse', property: 'adresse', visible: true, isModelProperty: true },
     { name: 'Telephone', property: 'telephone', visible: true, isModelProperty: true },
     { name: 'Section', property: 'section', visible: true, isModelProperty: true },
+    { name: 'Actions', property: 'actions', visible: true },
   ] as ListColumn[];
 
   constructor(
@@ -83,6 +84,26 @@ export class DahiraComponent implements OnInit {
          * You would probably make an HTTP request here.
          */
         this.dahiras.unshift(dahira);
+        this.subject$.next(this.dahiras);
+      }
+    });
+  }
+  updateDahira(dahira: Dahira) {
+    this.dialog.open(AjoutOuModifierDahiraComponent, {
+      height: '40%',
+      width:  '60%',
+      data: dahira,
+    // tslint:disable-next-line:no-shadowed-variable
+    }).afterClosed().subscribe((dahira) => {
+      /**
+       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       */
+      if (dahira) {
+        const index = this.dahiras.findIndex(
+          (existingMembre) =>
+          existingMembre.id === dahira.id
+        );
+        this.dahiras[index] = dahira;
         this.subject$.next(this.dahiras);
       }
     });

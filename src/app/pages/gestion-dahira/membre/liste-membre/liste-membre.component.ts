@@ -25,6 +25,7 @@ import { FormControl } from '@angular/forms';
 export class ListeMembreComponent implements OnInit {
 
   membres: Membre[];
+  membre: any;
   dahiras: any;
   filteredStates: Observable<any[]>;
   stateCtrl: FormControl = new FormControl();
@@ -48,7 +49,9 @@ export class ListeMembreComponent implements OnInit {
     { name: 'Scolarite', property: 'scolarite', visible: true, isModelProperty: true },
     { name: 'Adresse', property: 'adresse', visible: true, isModelProperty: true },
     { name: 'Dahira', property: 'dahira', visible: true, isModelProperty: true },
-    { name: 'Fonction', property: 'fonction', visible: true , isModelProperty: true }
+    { name: 'Fonction', property: 'fonction', visible: true , isModelProperty: true },
+    { name: 'Age', property: 'age', visible: true , isModelProperty: true },
+    { name: 'Actions', property: 'actions', visible: true },
   ] as ListColumn[];
   constructor(
     private membreService: MembreService,
@@ -98,6 +101,26 @@ export class ListeMembreComponent implements OnInit {
          * You would probably make an HTTP request here.
          */
         this.membres.unshift(membre);
+        this.subject$.next(this.membres);
+      }
+    });
+  }
+  updateMembre(membre: Membre) {
+    this.dialog.open(AjoutMembreComponent, {
+      height: '40%',
+      width:  '60%',
+      data: membre,
+    // tslint:disable-next-line:no-shadowed-variable
+    }).afterClosed().subscribe((membre) => {
+      /**
+       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       */
+      if (membre) {
+        const index = this.membres.findIndex(
+          (existingMembre) =>
+          existingMembre.id === membre.id
+        );
+        this.membres[index] = membre;
         this.subject$.next(this.membres);
       }
     });

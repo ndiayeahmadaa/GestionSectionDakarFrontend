@@ -43,7 +43,7 @@ export class AddUpdateFonctionComponent implements OnInit {
     }
 
     this.form = this.fb.group({
-      id: [AddUpdateFonctionComponent.id++],
+      // id: [AddUpdateFonctionComponent.id++],
       code: [this.defaults.code || ''],
       nom: this.defaults.nom || '',
     });
@@ -62,13 +62,36 @@ export class AddUpdateFonctionComponent implements OnInit {
 }
     );
   }
+  updateFonction() {
+    this.dialogConfirmationService.confirmationDialog().subscribe(action => {
+      if (action === DialogUtil.confirmer) {
+        let fonction: Fonction = this.defaults;
+        fonction = Object.assign(fonction, this.form.value);
+        // dahira.section = this.section;
+        // membre.dahira = this.dahira;
+        this.fonctionService.modifierFonction(fonction).subscribe(
+          response => {
+            this.notificationService.success(NotificationUtil.modification);
+            this.dialogRef.close(fonction);
+          }, (err) => {
+            this.notificationService.success(NotificationUtil.echec);
+          }
+        );
+      }
+    });
+  }
   save() {
     if (this.mode === 'create') {
       this.createFonction();
+    } else if (this.mode === 'update') {
+      this.updateFonction();
     }
   }
   isCreateMode() {
     return this.mode === 'create';
+  }
+  isUpdateMode() {
+    return this.mode === 'update';
   }
   onFilterChange(value) {
     if (!this.dataSource) {
