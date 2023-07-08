@@ -93,7 +93,7 @@ export class ListeMembreComponent implements OnInit {
   }
   createMembre() {
     this.dialog.open(AjoutMembreComponent, {
-      height: '40%',
+      height: '50%',
       width:  '60%',
     }).afterClosed().subscribe((membre: Membre) => {
       /**

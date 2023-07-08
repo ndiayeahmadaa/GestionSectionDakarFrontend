@@ -74,7 +74,7 @@
                 </ng-container>
 
                 <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
-                <tr (click)="updateMembre(row)" *matRowDef="let row; columns: visibleColumns" class="clickable route-animations-elements" mat-row></tr>
+                <tr *matRowDef="let row; columns: visibleColumns" class="clickable route-animations-elements" mat-row></tr>
             </table>
 
             <!-- <mat-paginator class="paginator" [pageSize]="pageSize"></mat-paginator> -->
