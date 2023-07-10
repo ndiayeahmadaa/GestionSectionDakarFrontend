@@ -31,6 +31,19 @@ export class DahiraService {
     })
       .pipe(catchError(this.errorHandler));
   }
+  deleteDahira(code: string): Observable<HttpResponse<any>> {
+
+    const params = { code: code };
+
+
+    return this._httpClient.delete<any>(
+      this.url,
+      {
+        params: params
+      }
+
+    );
+  }
 
 
   errorHandler(error) {

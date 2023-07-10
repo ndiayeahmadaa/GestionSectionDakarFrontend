@@ -31,6 +31,19 @@ listeSection(): Observable<HttpResponse<any>> {
   })
     .pipe(catchError(this.errorHandler));
 }
+supprimerSection(code: string): Observable<HttpResponse<any>> {
+
+  const params = { code: code };
+
+
+  return this._httpClient.delete<any>(
+    this.url,
+    {
+      params: params
+    }
+
+  );
+}
 errorHandler(error) {
   let errorMessage = '';
   if (error.error instanceof ErrorEvent) {

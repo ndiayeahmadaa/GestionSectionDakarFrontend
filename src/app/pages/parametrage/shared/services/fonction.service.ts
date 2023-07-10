@@ -30,6 +30,19 @@ export class FonctionService {
     })
       .pipe(catchError(this.errorHandler));
   }
+  supprimerFonction(code: string): Observable<HttpResponse<any>> {
+
+    const params = { code: code };
+
+
+    return this._httpClient.delete<any>(
+      this.url,
+      {
+        params: params
+      }
+
+    );
+  }
   errorHandler(error) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

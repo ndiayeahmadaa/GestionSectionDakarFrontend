@@ -40,12 +40,18 @@ export class MembreService {
     })
       .pipe(catchError(this.errorHandler));
   }
-  deleteMembre(membre: Membre): Observable<HttpResponse<any>> {
-    const httpOptions = {
-      headers: this.httpOptions.headers,
-      body: membre,
-    };
-    return this._httpClient.delete<any>(this.url, httpOptions);
+  deleteMembre(code: string): Observable<HttpResponse<any>> {
+
+    const params = { code: code };
+
+
+    return this._httpClient.delete<any>(
+      this.url,
+      {
+        params: params
+      }
+
+    );
   }
 
   errorHandler(error) {

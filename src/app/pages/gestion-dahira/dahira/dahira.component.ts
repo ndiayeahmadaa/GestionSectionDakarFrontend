@@ -12,6 +12,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { fadeInUpAnimation } from 'src/@fury/animations/fade-in-up.animation';
 import { fadeInRightAnimation } from 'src/@fury/animations/fade-in-right.animation';
 import { scaleInAnimation } from 'src/@fury/animations/scale-in.animation';
+import { DialogConfirmationService } from '../../shared/services/dialog-confirmation.service';
+import { NotificationService } from '../../shared/services/notification.service';
+import { DialogUtil, NotificationUtil } from '../../shared/util/util';
 
 @Component({
   selector: 'fury-dahira',
@@ -44,7 +47,9 @@ export class DahiraComponent implements OnInit {
 
   constructor(
     private dahiraService: DahiraService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private dialogConfirmationService: DialogConfirmationService,
+    private notificationService: NotificationService,
   ) { }
 
   ngOnInit(): void {
@@ -107,6 +112,28 @@ export class DahiraComponent implements OnInit {
         this.subject$.next(this.dahiras);
       }
     });
+  }
+  deleteDahira(dahira: Dahira) {
+    this.dialogConfirmationService.confirmationDialog().subscribe(action => {
+      if (action === DialogUtil.confirmer) {
+        this.dahiraService
+          .deleteDahira(dahira.code)
+          .subscribe((response) => {
+            this.notificationService.success(NotificationUtil.suppression);
+            this.dahiras.splice(
+              this.dahiras.findIndex(
+                (existingMembre) =>
+                  existingMembre.id === dahira.id
+              ),
+              1
+            );
+            this.subject$.next(this.dahiras);
+          },  (err) => {
+            this.notificationService.success(NotificationUtil.echec);
+          });
+      }
+    }
+    );
   }
   onFilterChange(value) {
     if (!this.dataSource) {

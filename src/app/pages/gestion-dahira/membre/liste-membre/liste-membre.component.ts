@@ -51,8 +51,8 @@ export class ListeMembreComponent implements OnInit {
     { name: 'Scolarite', property: 'scolarite', visible: true, isModelProperty: true },
     { name: 'Adresse', property: 'adresse', visible: true, isModelProperty: true },
     { name: 'Dahira', property: 'dahira', visible: true, isModelProperty: true },
-    { name: 'Fonction', property: 'fonction', visible: true , isModelProperty: true },
-    { name: 'Age', property: 'age', visible: true , isModelProperty: true },
+    { name: 'Fonction', property: 'fonction', visible: true, isModelProperty: true },
+    { name: 'Age', property: 'age', visible: true, isModelProperty: true },
     { name: 'Actions', property: 'actions', visible: true },
   ] as ListColumn[];
   constructor(
@@ -93,8 +93,8 @@ export class ListeMembreComponent implements OnInit {
   }
   createMembre() {
     this.dialog.open(AjoutMembreComponent, {
-      height: '50%',
-      width:  '60%',
+      height: '40%',
+      width: '60%',
     }).afterClosed().subscribe((membre: Membre) => {
       /**
        * Customer is the updated customer (if the user pressed Save - otherwise it's null)
@@ -112,9 +112,9 @@ export class ListeMembreComponent implements OnInit {
   updateMembre(membre: Membre) {
     this.dialog.open(AjoutMembreComponent, {
       height: '40%',
-      width:  '60%',
+      width: '60%',
       data: membre,
-    // tslint:disable-next-line:no-shadowed-variable
+      // tslint:disable-next-line:no-shadowed-variable
     }).afterClosed().subscribe((membre) => {
       /**
        * Customer is the updated customer (if the user pressed Save - otherwise it's null)
@@ -122,7 +122,7 @@ export class ListeMembreComponent implements OnInit {
       if (membre) {
         const index = this.membres.findIndex(
           (existingMembre) =>
-          existingMembre.id === membre.id
+            existingMembre.id === membre.id
         );
         this.membres[index] = membre;
         this.subject$.next(this.membres);
@@ -132,23 +132,25 @@ export class ListeMembreComponent implements OnInit {
   deleteMembre(membre: Membre) {
     this.dialogConfirmationService.confirmationDialog().subscribe(action => {
       if (action === DialogUtil.confirmer) {
-    this.membreService
-      .deleteMembre(membre)
-      .subscribe((response) => {
-        this.notificationService.success(NotificationUtil.suppression);
-        this.membre.splice(
-          this.membres.findIndex(
-            (existingDossierConge) =>
-              existingDossierConge.id === membre.id
-          ),
-          1
-        );
-        this.subject$.next(this.membres);
-      });
+        this.membreService
+          .deleteMembre(membre.matricule)
+          .subscribe((response) => {
+            this.notificationService.success(NotificationUtil.suppression);
+            this.membres.splice(
+              this.membres.findIndex(
+                (existingMembre) =>
+                  existingMembre.id === membre.id
+              ),
+              1
+            );
+            this.subject$.next(this.membres);
+          },  (err) => {
+            this.notificationService.success(NotificationUtil.echec);
+          });
+      }
     }
+    );
   }
-  );
-}
   onFilterChange(value) {
     if (!this.dataSource) {
       return;

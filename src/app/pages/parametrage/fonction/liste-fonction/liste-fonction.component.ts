@@ -10,6 +10,9 @@ import { FonctionService } from '../../shared/services/fonction.service';
 import { MatDialog } from '@angular/material/dialog';
 import { filter, map, startWith } from 'rxjs/operators';
 import { AddUpdateFonctionComponent } from '../add-update-fonction/add-update-fonction.component';
+import { DialogConfirmationService } from 'src/app/pages/shared/services/dialog-confirmation.service';
+import { NotificationService } from 'src/app/pages/shared/services/notification.service';
+import { DialogUtil, NotificationUtil } from 'src/app/pages/shared/util/util';
 
 @Component({
   selector: 'fury-liste-fonction',
@@ -39,7 +42,9 @@ export class ListeFonctionComponent implements OnInit {
   ] as ListColumn[];
   constructor(
     private fonctionService: FonctionService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private dialogConfirmationService: DialogConfirmationService,
+    private notificationService: NotificationService,
   ) { }
 
   ngOnInit(): void {
@@ -104,6 +109,28 @@ export class ListeFonctionComponent implements OnInit {
         this.subject$.next(this.fonctions);
       }
     });
+  }
+  deleteFonction(fonction: Fonction) {
+    this.dialogConfirmationService.confirmationDialog().subscribe(action => {
+      if (action === DialogUtil.confirmer) {
+        this.fonctionService
+          .supprimerFonction(fonction.code)
+          .subscribe((response) => {
+            this.notificationService.success(NotificationUtil.suppression);
+            this.fonctions.splice(
+              this.fonctions.findIndex(
+                (existingMembre) =>
+                  existingMembre.id === fonction.id
+              ),
+              1
+            );
+            this.subject$.next(this.fonctions);
+          }, (err) => {
+            this.notificationService.success(NotificationUtil.echec);
+          });
+      }
+    }
+    );
   }
   onFilterChange(value) {
     if (!this.dataSource) {
