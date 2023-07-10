@@ -10,11 +10,15 @@ import { CustomerCreateUpdateModule } from '../../tables/all-in-one-table/custom
 import { BreadcrumbsModule } from 'src/@fury/shared/breadcrumbs/breadcrumbs.module';
 import { AjoutOuModifierDahiraComponent } from './ajout-ou-modifier-dahira/ajout-ou-modifier-dahira.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DetailDahiraComponent } from './detail-dahira/detail-dahira.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { PageLayoutDemoContentModule } from '../../page-layouts/components/page-layout-content/page-layout-demo-content.module';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 
 @NgModule({
-  declarations: [DahiraComponent, AjoutOuModifierDahiraComponent],
+  declarations: [DahiraComponent, AjoutOuModifierDahiraComponent, DetailDahiraComponent],
   imports: [
     DahiraRoutingModule,
     CommonModule,
@@ -23,11 +27,15 @@ import { ReactiveFormsModule } from '@angular/forms';
     MaterialModule,
     ReactiveFormsModule,
     FurySharedModule,
-
+    MatTabsModule,
+    PageLayoutDemoContentModule,
+    MatExpansionModule,
      // Core
      ListModule,
      CustomerCreateUpdateModule,
-     BreadcrumbsModule
+     BreadcrumbsModule,
+     BreadcrumbsModule,
+     ReactiveFormsModule,
 
   ]
 })

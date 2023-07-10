@@ -17,15 +17,17 @@ import { DahiraService } from '../../shared/services/dahira.service';
 import { FormControl } from '@angular/forms';
 import { DialogUtil, NotificationUtil } from 'src/app/pages/shared/util/util';
 import { NotificationService } from 'src/app/pages/shared/services/notification.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'fury-liste-membre',
   templateUrl: './liste-membre.component.html',
-  styleUrls: ['./liste-membre.component.scss'],
+  styleUrls: ['./liste-membre.component.scss', '../../../shared/util/bootstrap4.css'],
   animations: [fadeInRightAnimation, fadeInUpAnimation]
 })
 export class ListeMembreComponent implements OnInit {
-
+  codeDahira: string;
+  showProgressBar = false;
   membres: Membre[];
   membre: any;
   dahiras: any;
@@ -34,6 +36,7 @@ export class ListeMembreComponent implements OnInit {
   subject$: ReplaySubject<Membre[]> = new ReplaySubject<Membre[]>(
     1
   );
+  pageSize = 4;
   data$: Observable<Membre[]> = this.subject$.asObservable();
   dataSource: MatTableDataSource<Membre> | null;
 
@@ -60,26 +63,32 @@ export class ListeMembreComponent implements OnInit {
     private dialogConfirmationService: DialogConfirmationService,
     private notificationService: NotificationService,
     private dahiraSerivice: DahiraService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute
     // private dialogConfirmationService: DialogConfirmationService,
   ) { }
 
   ngOnInit(): void {
-    this.getMembres();
-
+    /** recup code dahira */
     this.dataSource = new MatTableDataSource();
 
     this.data$.pipe(filter((data) => !!data)).subscribe((agents) => {
       this.membres = this.membres;
       this.dataSource.data = this.membres;
     });
+    this.route.paramMap.subscribe((params) => {
+      this.codeDahira = params.get('codeDahira');
+      this.getMembres(this.codeDahira);
+    });
   }
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
 
-  getMembres() {
-    this.membreService.listeMembre().subscribe(
+  getMembres(codeDahira?) {
+    this.showProgressBar = false;
+    this.membreService.listeMembre(codeDahira).subscribe(
       (response) => {
         this.membres = response.body;
         console.log('liste membres', this.membres);
@@ -88,6 +97,7 @@ export class ListeMembreComponent implements OnInit {
       },
       () => {
         this.subject$.next(this.membres);
+        this.showProgressBar = true;
       }
     );
   }
@@ -144,7 +154,7 @@ export class ListeMembreComponent implements OnInit {
               1
             );
             this.subject$.next(this.membres);
-          },  (err) => {
+          }, (err) => {
             this.notificationService.success(NotificationUtil.echec);
           });
       }

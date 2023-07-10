@@ -34,9 +34,16 @@ export class MembreService {
     });
   }
 
-  listeMembre(): Observable<HttpResponse<any>> {
+  listeMembre(codeDahira?: string): Observable<HttpResponse<any>> {
+    let params = {};
+
+    if (codeDahira) {
+      params = Object.assign(params, { codeDahira: codeDahira });
+    }
+
     return this._httpClient.get<any>(this.url, {
       observe: 'response',
+      params: params
     })
       .pipe(catchError(this.errorHandler));
   }
@@ -52,6 +59,13 @@ export class MembreService {
       }
 
     );
+  }
+  getAll(): Observable<HttpResponse<any>> {
+    return this._httpClient
+      .get<any>(this.url, {
+        observe: 'response',
+      })
+      .pipe(catchError(this.errorHandler));
   }
 
   errorHandler(error) {

@@ -15,15 +15,18 @@ import { scaleInAnimation } from 'src/@fury/animations/scale-in.animation';
 import { DialogConfirmationService } from '../../shared/services/dialog-confirmation.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { DialogUtil, NotificationUtil } from '../../shared/util/util';
+import { DetailDahiraComponent } from './detail-dahira/detail-dahira.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'fury-dahira',
   templateUrl: './dahira.component.html',
-  styleUrls: ['./dahira.component.scss'],
+  styleUrls: ['./dahira.component.scss', '../../shared/util/bootstrap4.css'],
   animations: [fadeInUpAnimation, fadeInRightAnimation, scaleInAnimation]
 })
 export class DahiraComponent implements OnInit {
-
+  codeSection: string;
+  showProgressBar = false;
   dahiras: Dahira[];
   subject$: ReplaySubject<Dahira[]> = new ReplaySubject<Dahira[]>(
     1
@@ -50,6 +53,8 @@ export class DahiraComponent implements OnInit {
     private dialog: MatDialog,
     private dialogConfirmationService: DialogConfirmationService,
     private notificationService: NotificationService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -59,13 +64,18 @@ export class DahiraComponent implements OnInit {
       this.dahiras = this.dahiras;
       this.dataSource.data = this.dahiras;
     });
+    this.route.paramMap.subscribe((params) => {
+      this.codeSection = params.get('codeSection');
+      this.getDahiras(this.codeSection);
+    });
   }
 
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
-  getDahiras() {
-    this.dahiraService.listeDahira().subscribe(
+  getDahiras(codeSection?) {
+    this.showProgressBar = false;
+    this.dahiraService.listeDahira(codeSection).subscribe(
       (response) => {
         this.dahiras = response.body;
         console.log('liste dahira', this.dahiras);
@@ -74,6 +84,7 @@ export class DahiraComponent implements OnInit {
       },
       () => {
         this.subject$.next(this.dahiras);
+        this.showProgressBar = true;
       }
     );
   }
@@ -134,6 +145,30 @@ export class DahiraComponent implements OnInit {
       }
     }
     );
+  }
+  detailsDahira(detailDahira: Dahira) {
+    this.dialog
+      .open(DetailDahiraComponent, {
+        data: detailDahira,
+      })
+      .afterClosed()
+      .subscribe((detailsDahira) => {
+        /**
+         * DossierConge is the updated dossierConge (if the user pressed Save - otherwise it's null)
+         */
+        if (detailsDahira) {
+          /**
+           * Here we are updating our local array.
+           * You would probably make an HTTP request here.
+           */
+          const index = this.dahiras.findIndex(
+            (existingDossierConge) =>
+              existingDossierConge.id === detailsDahira.id
+          );
+          this.dahiras[index] = detailDahira;
+          this.subject$.next(this.dahiras);
+        }
+      });
   }
   onFilterChange(value) {
     if (!this.dataSource) {

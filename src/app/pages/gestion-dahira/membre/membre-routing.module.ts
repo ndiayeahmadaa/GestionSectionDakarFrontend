@@ -8,6 +8,9 @@ const routes: Routes = [
   },
   {
     path: 'liste-membre', component: ListeMembreComponent
+  },
+  {
+    path: 'liste-membre/:codeDahira', component: ListeMembreComponent
   }
 ];
 

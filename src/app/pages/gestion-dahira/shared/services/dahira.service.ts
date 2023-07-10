@@ -25,9 +25,15 @@ export class DahiraService {
       observe: 'response'
     });
   }
-  listeDahira(): Observable<HttpResponse<any>> {
+  listeDahira(codeSection?: string): Observable<HttpResponse<any>> {
+    let params = {};
+
+    if (codeSection) {
+      params = Object.assign(params, { codeSection: codeSection });
+    }
     return this._httpClient.get<any>(this.url, {
       observe: 'response',
+      params: params
     })
       .pipe(catchError(this.errorHandler));
   }
@@ -44,7 +50,13 @@ export class DahiraService {
 
     );
   }
-
+  getAll(): Observable<HttpResponse<any>> {
+    return this._httpClient
+      .get<any>(this.url, {
+        observe: 'response',
+      })
+      .pipe(catchError(this.errorHandler));
+  }
 
   errorHandler(error) {
     let errorMessage = '';
