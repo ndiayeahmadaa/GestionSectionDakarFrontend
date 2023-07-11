@@ -81,21 +81,21 @@ export class AppComponent {
           },
         ]
       },
-      {
-        name: 'Dashboard',
-        routeOrFunction: '/',
-        icon: 'dashboard',
-        position: 12,
-        pathMatchExact: true
-      },
-      {
-        name: 'All-In-One Table',
-        routeOrFunction: '/tables/all-in-one-table',
-        icon: 'assignment',
-        badge: '22',
-        badgeColor: '#2196F3',
-        position: 15,
-      },
+      // {
+      //   name: 'Dashboard',
+      //   routeOrFunction: '/',
+      //   icon: 'dashboard',
+      //   position: 12,
+      //   pathMatchExact: true
+      // },
+      // {
+      //   name: 'All-In-One Table',
+      //   routeOrFunction: '/tables/all-in-one-table',
+      //   icon: 'assignment',
+      //   badge: '22',
+      //   badgeColor: '#2196F3',
+      //   position: 15,
+      // },
       // {
       //   name: 'Calendar',
       //   routeOrFunction: '/apps/calendar',
@@ -127,23 +127,23 @@ export class AppComponent {
       //   icon: 'layers',
       //   position: 40
       // },
-      {
-        name: 'Forms',
-        icon: 'description',
-        position: 45,
-        subItems: [
-          {
-            name: 'Form Elements',
-            routeOrFunction: '/forms/form-elements',
-            position: 10
-          },
-          {
-            name: 'Form Wizard',
-            routeOrFunction: '/forms/form-wizard',
-            position: 15
-          }
-        ]
-      },
+      // {
+      //   name: 'Forms',
+      //   icon: 'description',
+      //   position: 45,
+      //   subItems: [
+      //     {
+      //       name: 'Form Elements',
+      //       routeOrFunction: '/forms/form-elements',
+      //       position: 10
+      //     },
+      //     {
+      //       name: 'Form Wizard',
+      //       routeOrFunction: '/forms/form-wizard',
+      //       position: 15
+      //     }
+      //   ]
+      // },
       // {
       //   name: 'Drag & Drop',
       //   routeOrFunction: '/drag-and-drop',
