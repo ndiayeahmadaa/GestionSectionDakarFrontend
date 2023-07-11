@@ -11,6 +11,9 @@ const routes: Routes = [
   },
   {
     path: 'liste-membre/:codeDahira', component: ListeMembreComponent
+  },
+  {
+    path: 'liste-membre/fonction/:codeFonction', component: ListeMembreComponent
   }
 ];
 

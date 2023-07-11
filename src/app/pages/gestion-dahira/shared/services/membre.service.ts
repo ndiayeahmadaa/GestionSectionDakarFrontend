@@ -34,13 +34,15 @@ export class MembreService {
     });
   }
 
-  listeMembre(codeDahira?: string): Observable<HttpResponse<any>> {
+  listeMembre(codeDahira?: string, codeFonction?: string): Observable<HttpResponse<any>> {
     let params = {};
 
     if (codeDahira) {
       params = Object.assign(params, { codeDahira: codeDahira });
     }
-
+    if (codeFonction) {
+      params = Object.assign(params, { codeFonction: codeFonction });
+    }
     return this._httpClient.get<any>(this.url, {
       observe: 'response',
       params: params

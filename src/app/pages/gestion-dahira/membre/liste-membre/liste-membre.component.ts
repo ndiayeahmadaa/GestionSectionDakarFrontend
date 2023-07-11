@@ -27,6 +27,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ListeMembreComponent implements OnInit {
   codeDahira: string;
+  codeFonction: string;
   showProgressBar = false;
   membres: Membre[];
   membre: any;
@@ -79,16 +80,18 @@ export class ListeMembreComponent implements OnInit {
     });
     this.route.paramMap.subscribe((params) => {
       this.codeDahira = params.get('codeDahira');
-      this.getMembres(this.codeDahira);
+      this.codeFonction = params.get('codeFonction');
+      this.getMembres(this.codeDahira, this.codeFonction);
+
     });
   }
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
 
-  getMembres(codeDahira?) {
+  getMembres(codeDahira?, codeFonction?) {
     this.showProgressBar = false;
-    this.membreService.listeMembre(codeDahira).subscribe(
+    this.membreService.listeMembre(codeDahira, codeFonction).subscribe(
       (response) => {
         this.membres = response.body;
         console.log('liste membres', this.membres);
