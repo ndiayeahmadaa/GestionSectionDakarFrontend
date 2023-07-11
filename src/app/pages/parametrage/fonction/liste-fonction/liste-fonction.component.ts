@@ -20,7 +20,7 @@ import { DialogUtil, NotificationUtil } from 'src/app/pages/shared/util/util';
   styleUrls: ['./liste-fonction.component.scss']
 })
 export class ListeFonctionComponent implements OnInit {
-
+  showProgressBar = false;
   fonctions: Fonction[];
   filteredStates: Observable<any[]>;
   stateCtrl: FormControl = new FormControl();
@@ -57,6 +57,7 @@ export class ListeFonctionComponent implements OnInit {
     });
   }
   getFonction() {
+    this.showProgressBar = false;
     this.fonctionService.listeFonction().subscribe(
       (response) => {
         this.fonctions = response.body;
@@ -66,6 +67,7 @@ export class ListeFonctionComponent implements OnInit {
       },
       () => {
         this.subject$.next(this.fonctions);
+        this.showProgressBar = true;
       }
     );
   }

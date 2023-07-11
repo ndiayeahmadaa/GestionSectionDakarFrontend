@@ -19,6 +19,7 @@ import { DialogUtil, NotificationUtil } from 'src/app/pages/shared/util/util';
   styleUrls: ['./liste-section.component.scss']
 })
 export class ListeSectionComponent implements OnInit {
+  showProgressBar = false;
   sections: Section[];
   subject$: ReplaySubject<Section[]> = new ReplaySubject<Section[]>(
     1
@@ -58,6 +59,7 @@ export class ListeSectionComponent implements OnInit {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
   getSections() {
+    this.showProgressBar = false;
     this.sectionService.listeSection().subscribe(
       (response) => {
         this.sections = response.body;
@@ -67,6 +69,7 @@ export class ListeSectionComponent implements OnInit {
       },
       () => {
         this.subject$.next(this.sections);
+        this.showProgressBar = true;
       }
     );
   }

@@ -8,7 +8,7 @@
   </fury-page-layout-header>
 
   <fury-page-layout-content [@fadeInUp]>
-    <fury-list>
+    <fury-list *ngIf="dahiras?.length > 0 && showProgressBar === true">
       <div class="actions">
         <button
           class="create"
@@ -20,7 +20,17 @@
           <mat-icon>add</mat-icon>
         </button>
       </div>
-
+      <div class="card text-center">
+        <div
+          class="card-header"
+          *ngIf="codeSection != null && dahiras.length > 0"
+        >
+          <span class="badge badge-info text-center">
+            La {{ dahiras[0]?.section?.nom }} compte
+            {{ dahiras.length }} dahira(s)
+          </span>
+        </div>
+      </div>
       <table [dataSource]="dataSource" mat-table matSort>
         - Note that these columns can be defined in any order. The actual
         rendered columns are set as a property on the row definition"
@@ -115,7 +125,7 @@
                 mat-menu-item
                 matTooltip="Suivi Demandes"
               >
-              <mat-icon>remove_red_eye</mat-icon>
+                <mat-icon>remove_red_eye</mat-icon>
                 <span>Voir Membres</span>
               </button>
             </mat-menu>

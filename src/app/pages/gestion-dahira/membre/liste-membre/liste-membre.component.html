@@ -8,7 +8,7 @@
   </fury-page-layout-header>
 
   <fury-page-layout-content [@fadeInUp]>
-    <fury-list
+    <fury-list *ngIf="membres?.length > 0 && showProgressBar === true"
       name="Membres"
       [columns]="columns"
       (filterChange)="onFilterChange($event)"
@@ -23,6 +23,21 @@
         >
           <mat-icon>add</mat-icon>
         </button>
+      </div>
+      <div class="card text-center">
+        <div class="card-header" *ngIf="codeDahira != null && membres.length > 0">
+          <span class="badge badge-info text-center">
+            liste des membres du dahira :  {{membres[0]?.dahira?.nom}}
+          </span>
+        </div>
+      </div>
+
+      <div class="card text-center">
+        <div class="card-header" *ngIf="codeFonction != null && membres.length > 0">
+          <span class="badge badge-info text-center">
+            liste des membres ayants la fonction :  {{membres[0]?.fonction?.nom}}
+          </span>
+        </div>
       </div>
 
       <table [dataSource]="dataSource" mat-table matSort>
@@ -107,7 +122,6 @@
                 <mat-icon>delete</mat-icon>
                 <span>Supprimer</span>
               </button>
-              
             </mat-menu>
           </td>
         </ng-container>
