@@ -14,6 +14,8 @@ import { DetailDahiraComponent } from './detail-dahira/detail-dahira.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PageLayoutDemoContentModule } from '../../page-layouts/components/page-layout-content/page-layout-demo-content.module';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTableExporterModule } from 'mat-table-exporter';
+
 
 
 
@@ -36,6 +38,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
      BreadcrumbsModule,
      BreadcrumbsModule,
      ReactiveFormsModule,
+
+     MatTableExporterModule,
 
   ]
 })

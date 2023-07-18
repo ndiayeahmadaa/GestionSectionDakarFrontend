@@ -10,6 +10,7 @@ import { MaterialModule } from 'src/@fury/shared/material-components.module';
 import { CustomerCreateUpdateModule } from '../../tables/all-in-one-table/customer-create-update/customer-create-update.module';
 import { AjoutMembreComponent } from './ajout-membre/ajout-membre.component';
 import { DetailMembreComponent } from './detail-membre/detail-membre.component';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 
 
@@ -22,6 +23,7 @@ import { DetailMembreComponent } from './detail-membre/detail-membre.component';
     FormsModule,
     MaterialModule,
     FurySharedModule,
+    MatTableExporterModule,
 
     // Core
     ListModule,

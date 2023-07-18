@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Membre } from '../../shared/models/membre.types';
 import { MembreService } from '../../shared/services/membre.service';
 import { MatPaginator } from '@angular/material/paginator';
@@ -18,6 +18,7 @@ import { FormControl } from '@angular/forms';
 import { DialogUtil, NotificationUtil } from 'src/app/pages/shared/util/util';
 import { NotificationService } from 'src/app/pages/shared/services/notification.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'fury-liste-membre',
@@ -59,6 +60,8 @@ export class ListeMembreComponent implements OnInit {
     { name: 'Age', property: 'age', visible: true, isModelProperty: true },
     { name: 'Actions', property: 'actions', visible: true },
   ] as ListColumn[];
+  @ViewChild('TABLE') table: ElementRef;
+  // displayedColumns = ['matricule', 'prenom', 'nom', 'sexe'];
   constructor(
     private membreService: MembreService,
     private dialogConfirmationService: DialogConfirmationService,
@@ -163,6 +166,15 @@ export class ListeMembreComponent implements OnInit {
       }
     }
     );
+  }
+  ExportTOExcel() {
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, 'SheetJS.xlsx');
+
   }
   onFilterChange(value) {
     if (!this.dataSource) {

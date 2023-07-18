@@ -20,6 +20,16 @@
           <mat-icon>add</mat-icon>
         </button>
       </div>
+      <div class="actions">
+        <button
+          (click)="exporter.exportTable('xlsx', { fileName: 'dahira' })"
+          type="button"
+          mat-mini-fab
+          color="primary"
+        >
+          <mat-icon>cloud_download</mat-icon>
+        </button>
+      </div>
       <div class="card text-center">
         <div
           class="card-header"
@@ -31,7 +41,8 @@
           </span>
         </div>
       </div>
-      <table [dataSource]="dataSource" mat-table matSort>
+      <table  matTableExporter
+      #exporter="matTableExporter" [dataSource]="dataSource" mat-table matSort>
         - Note that these columns can be defined in any order. The actual
         rendered columns are set as a property on the row definition"
         <!-- Checkbox Column -->
