@@ -27,11 +27,25 @@ export class MembreService {
       observe: 'response'
     });
   }
+  ajouterTout(membres: Membre[]): Observable<HttpResponse<any>> {
+    return this._httpClient
+      .post<any>(this.url + '/all', JSON.stringify(membres), {
+        headers: this.httpOptions.headers,
+        observe: 'response',
+      });
+  }
 
   modifierMembre(membre: Membre): Observable<any> {
     return this._httpClient.put<Membre>(this.url, membre, {
       observe: 'response',
     });
+  }
+  getAll(): Observable<HttpResponse<any>> {
+    return this._httpClient
+      .get<any>(this.url, {
+        observe: 'response',
+      })
+      .pipe(catchError(this.errorHandler));
   }
 
   listeMembre(codeDahira?: string, codeFonction?: string): Observable<HttpResponse<any>> {
@@ -61,13 +75,6 @@ export class MembreService {
       }
 
     );
-  }
-  getAll(): Observable<HttpResponse<any>> {
-    return this._httpClient
-      .get<any>(this.url, {
-        observe: 'response',
-      })
-      .pipe(catchError(this.errorHandler));
   }
 
   errorHandler(error) {

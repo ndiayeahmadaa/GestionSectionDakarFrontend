@@ -87,6 +87,8 @@ export class AjoutMembreComponent implements OnInit {
         this.membreService.ajouterMembre(membre).subscribe((response) => {
           this.notificationService.success(NotificationUtil.ajout);
           this.dialogRef.close(response.body);
+        }, (error) => {
+          this.notificationService.warn(NotificationUtil.echec);
         }
         );
       }

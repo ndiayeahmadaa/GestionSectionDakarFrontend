@@ -11,11 +11,12 @@ import { CustomerCreateUpdateModule } from '../../tables/all-in-one-table/custom
 import { AjoutMembreComponent } from './ajout-membre/ajout-membre.component';
 import { DetailMembreComponent } from './detail-membre/detail-membre.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { ImportMembreComponent } from './import-membre/import-membre.component';
 
 
 
 @NgModule({
-  declarations: [ListeMembreComponent, AjoutMembreComponent, DetailMembreComponent, ],
+  declarations: [ListeMembreComponent, AjoutMembreComponent, DetailMembreComponent, ImportMembreComponent, ],
   imports: [
     MembreRoutingModule,
     CommonModule,

@@ -21,9 +21,19 @@
           color="primary">
           <mat-icon>add</mat-icon>
         </button>
+        <button
+        (click)="exporter.exportTable('xlsx', { fileName: 'membre' })"
+        type="button"
+        mat-mini-fab
+        color="primary">
+        <mat-icon>cloud_download</mat-icon>
+      </button>
+      <button class="create" (click)="importMembres()" type="button" mat-mini-fab color="primary">
+        <mat-icon>cloud_upload</mat-icon>
+</button>
       </div>
 
-      <div class="actions">
+      <!-- <div class="actions">
         <button
           (click)="exporter.exportTable('xlsx', { fileName: 'membre' })"
           type="button"
@@ -31,7 +41,7 @@
           color="primary">
           <mat-icon>cloud_download</mat-icon>
         </button>
-      </div>
+      </div> -->
       <div class="card text-center">
         <div
           class="card-header"
